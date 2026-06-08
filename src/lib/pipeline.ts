@@ -116,7 +116,8 @@ export async function analyzePullRequest(context: PRContext): Promise<void> {
     // A thrown error here would be swallowed anyway since we're in after().
     // Log on separate lines so Vercel's truncation doesn't eat the message.
     const msg = error instanceof Error ? error.message : String(error)
-    console.error(`[pipeline] FAILED ${owner}/${repo}#${prNumber}`)
-    console.error(`[pipeline-err] ${msg.slice(0, 500)}`)
+    // Put the error message FIRST so Vercel's truncation doesn't hide it
+    console.error(`[ERR] ${msg.slice(0, 300)}`)
+    console.error(`[ERR-ctx] ${owner}/${repo}#${prNumber}`)
   }
 }
