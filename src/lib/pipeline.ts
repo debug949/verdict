@@ -115,9 +115,9 @@ export async function analyzePullRequest(context: PRContext): Promise<void> {
     // Never propagate — we already sent 200 to GitHub.
     // A thrown error here would be swallowed anyway since we're in after().
     // Log on separate lines so Vercel's truncation doesn't eat the message.
-    const msg = error instanceof Error ? error.message : String(error)
-    // Put the error message FIRST so Vercel's truncation doesn't hide it
-    console.error(`[ERR] ${msg.slice(0, 300)}`)
-    console.error(`[ERR-ctx] ${owner}/${repo}#${prNumber}`)
+    console.error(
+      `[pipeline] analysis failed for ${owner}/${repo}#${prNumber}:`,
+      error instanceof Error ? error.message : error
+    )
   }
 }
