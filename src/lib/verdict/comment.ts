@@ -34,11 +34,8 @@ export function buildNarrative(result: AnalysisResult): string {
   }
 
   if (secrets.length > 0) {
-    const intro = clauses.length > 0 ? 'A' : 'This PR introduces a'
     const inZone = secrets[0].zone !== 'GENERAL' ? ` in your ${secrets[0].zone} layer` : ''
-    clauses.push(
-      `${intro} credential was found in the diff${inZone}`
-    )
+    clauses.push(`A credential was found in the diff${inZone}`)
   }
 
   if (cves.length > 0) {

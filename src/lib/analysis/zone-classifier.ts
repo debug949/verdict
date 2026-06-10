@@ -83,8 +83,11 @@ const ZONE_RULES: ZoneRule[] = [
  * Returns 'GENERAL' if no rule matches.
  */
 export function classifyFile(filename: string): SecurityZone {
+  // Normalise: prepend '/' so patterns like /\/(payment)\// also match
+  // root-level directories (e.g. "payment/config.js" → "/payment/config.js").
+  const normalised = filename.startsWith('/') ? filename : `/${filename}`
   for (const rule of ZONE_RULES) {
-    if (rule.patterns.some((p) => p.test(filename))) {
+    if (rule.patterns.some((p) => p.test(normalised))) {
       return rule.zone
     }
   }
