@@ -92,6 +92,56 @@ export interface AnalysisResult {
   cvesFound: number
 }
 
+// ─── Persisted report ─────────────────────────────────────────────────────
+
+/**
+ * The complete analysis result stored in KV at the end of each pipeline run.
+ * Read by the report page at /r/[owner]/[repo]/[prNumber].
+ *
+ * schemaVersion lets the report page detect stale data from old deploys.
+ * If a stored record has a different schemaVersion, loadReport() returns null
+ * and the report page shows a "not found" state rather than crashing.
+ *
+ * Typical serialised size: 3–10 KB. KV value limit is 512 KB — no risk.
+ * TTL: 30 days (set in saveReport).
+ */
+export interface StoredReport {
+  schemaVersion: 1
+
+  // ── Identity ──────────────────────────────────────────────────────────
+  owner:      string
+  repo:       string
+  prNumber:   number
+  headSha:    string
+  prTitle:    string
+  prAuthor:   string
+  analyzedAt: string   // ISO 8601 — e.g. "2026-06-08T14:32:00.000Z"
+
+  // ── Score ─────────────────────────────────────────────────────────────
+  trustScore: TrustScore   // { score, grade, riskLevel }
+
+  // ── Counts ────────────────────────────────────────────────────────────
+  secretsFound:  number
+  cvesFound:     number
+  filesAnalyzed: number   // rawFiles.length
+  linesScanned:  number   // total added lines across all non-removed files
+
+  // ── Findings (full structured objects) ────────────────────────────────
+  findings: Finding[]
+
+  // ── Zone breakdown ────────────────────────────────────────────────────
+  zoneImpacts: ZoneImpact[]
+
+  // ── Per-file stats (for Files Analyzed table) ─────────────────────────
+  fileStats: {
+    filename:  string
+    zone:      SecurityZone
+    status:    DiffFile['status']
+    additions: number
+    deletions: number
+  }[]
+}
+
 // ─── GitHub webhook event payloads ────────────────────────────────────────
 
 export interface GitHubAccount {

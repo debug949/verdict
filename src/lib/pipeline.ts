@@ -6,11 +6,13 @@ import { scanSecrets } from '@/lib/analysis/secret-scanner'
 import { auditDependencies } from '@/lib/analysis/dep-auditor'
 import { calculateTrustScore, estimateBlastRadius } from '@/lib/risk/scorer'
 import { formatVerdictComment } from '@/lib/verdict/comment'
+import { saveReport } from '@/lib/store/report'
 import type {
   PRContext,
   AnalysisResult,
   ZoneImpact,
   SecurityZone,
+  StoredReport,
 } from '@/lib/verdict/types'
 
 /**
@@ -111,6 +113,45 @@ export async function analyzePullRequest(context: PRContext): Promise<void> {
     console.log(
       `[pipeline] done review=${reviewId} check_run=${checkRunId}`
     )
+
+    // ── Phase 5: Persist report ─────────────────────────────────────────
+    // Build StoredReport from the data already in scope and write to KV.
+    // saveReport() NEVER throws — a storage failure must not affect the
+    // review or check run that were already successfully posted above.
+
+    const linesScanned = zonedFiles.reduce(
+      (sum, f) => sum + f.addedLines.length,
+      0
+    )
+
+    const storedReport: StoredReport = {
+      schemaVersion: 1,
+      owner,
+      repo,
+      prNumber,
+      headSha,
+      prTitle:      context.prTitle,
+      prAuthor:     context.prAuthor,
+      analyzedAt:   new Date().toISOString(),
+      trustScore,
+      secretsFound: secretFindings.length,
+      cvesFound:    cveFindings.length,
+      filesAnalyzed: rawFiles.length,
+      linesScanned,
+      findings:     allFindings,
+      zoneImpacts,
+      fileStats:    zonedFiles.map((f) => ({
+        filename:  f.filename,
+        zone:      f.zone,
+        status:    f.status,
+        additions: f.additions,
+        deletions: f.deletions,
+      })),
+    }
+
+    const persisted = await saveReport(storedReport)
+    console.log(`[pipeline] report persisted=${persisted}`)
+
   } catch (error) {
     // Never propagate — we already sent 200 to GitHub.
     // A thrown error here would be swallowed anyway since we're in after().
