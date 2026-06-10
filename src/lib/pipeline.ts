@@ -5,7 +5,7 @@ import { classifyFiles } from '@/lib/analysis/zone-classifier'
 import { scanSecrets } from '@/lib/analysis/secret-scanner'
 import { auditDependencies } from '@/lib/analysis/dep-auditor'
 import { calculateTrustScore, estimateBlastRadius } from '@/lib/risk/scorer'
-import { formatVerdictComment } from '@/lib/verdict/comment'
+import { formatVerdictComment, buildNarrative } from '@/lib/verdict/comment'
 import { saveReport } from '@/lib/store/report'
 import type {
   PRContext,
@@ -133,6 +133,7 @@ export async function analyzePullRequest(context: PRContext): Promise<void> {
       prTitle:      context.prTitle,
       prAuthor:     context.prAuthor,
       analyzedAt:   new Date().toISOString(),
+      narrative:    buildNarrative(result),
       trustScore,
       secretsFound: secretFindings.length,
       cvesFound:    cveFindings.length,

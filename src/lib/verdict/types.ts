@@ -117,6 +117,12 @@ export interface StoredReport {
   prAuthor:   string
   analyzedAt: string   // ISO 8601 — e.g. "2026-06-08T14:32:00.000Z"
 
+  // ── Narrative ─────────────────────────────────────────────────────────
+  /** Pre-rendered plain-English narrative from buildNarrative(). Same text
+   *  that appears in the GitHub PR review comment, stored so the report page
+   *  never needs to regenerate or diverge from it. */
+  narrative: string
+
   // ── Score ─────────────────────────────────────────────────────────────
   trustScore: TrustScore   // { score, grade, riskLevel }
 

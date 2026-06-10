@@ -11,7 +11,7 @@ import { ZONE_EMOJI, ZONE_LABEL } from '@/lib/analysis/zone-classifier'
  * The narrative answers: "What does this PR do to your security posture?"
  * Not: "What problems did we find?"
  */
-function buildNarrative(result: AnalysisResult): string {
+export function buildNarrative(result: AnalysisResult): string {
   const { findings, zoneImpacts } = result
 
   const authZone = zoneImpacts.find((z) => z.zone === 'AUTH')

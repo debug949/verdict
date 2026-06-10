@@ -116,17 +116,36 @@ function Badge({
   )
 }
 
+const IMPACT_LABEL: Record<'low' | 'medium' | 'high', string> = {
+  low:    'Limited',
+  medium: 'Moderate',
+  high:   'Broad',
+}
+
+const IMPACT_COLOR: Record<'low' | 'medium' | 'high', string> = {
+  low:    '#94a3b8',
+  medium: '#eab308',
+  high:   '#f97316',
+}
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="rpt-section-label" aria-hidden="true">{children}</div>
   )
 }
 
-function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <div className={`rpt-card ${className}`}>{children}</div>
-}
-
 // ─── Sections ─────────────────────────────────────────────────────────────
+
+function NarrativeSection({ report }: { report: StoredReport }) {
+  const { narrative } = report
+  if (!narrative) return null
+  return (
+    <section className="rpt-section rpt-narrative">
+      <SectionLabel>⬡ Risk Narrative</SectionLabel>
+      <p className="rpt-narrative-text">{narrative}</p>
+    </section>
+  )
+}
 
 function HeroPanel({ report }: { report: StoredReport }) {
   const { trustScore, prTitle, prAuthor, analyzedAt, filesAnalyzed,
@@ -246,6 +265,12 @@ function ZoneBreakdown({ report }: { report: StoredReport }) {
                   bg={`${color}18`}
                   border={`${color}40`}
                 />
+                <span
+                  className="rpt-zone-impact"
+                  style={{ color: IMPACT_COLOR[zi.estimatedImpact] }}
+                >
+                  {IMPACT_LABEL[zi.estimatedImpact]}
+                </span>
                 {addedLines > 0 && (
                   <span className="rpt-zone-lines">+{addedLines} lines</span>
                 )}
@@ -524,6 +549,8 @@ export default async function ReportPage({ params }: Props) {
       {/* ── Report ──────────────────────────────────────────────── */}
       <div className="rpt-root">
         <HeroPanel report={report} />
+        <div className="rpt-divider" />
+        <NarrativeSection report={report} />
         <div className="rpt-divider" />
         <ZoneBreakdown report={report} />
         <div className="rpt-divider" />

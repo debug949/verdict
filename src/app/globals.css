@@ -1265,6 +1265,27 @@ footer a:hover { color: var(--text); }
   text-align: right;
 }
 
+/* ── Risk narrative ────────────────────────────────────────────── */
+.rpt-narrative {
+  padding: 1.5rem 2rem;
+}
+.rpt-narrative-text {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--fg);
+  max-width: 680px;
+}
+
+/* ── Zone impact label ─────────────────────────────────────────── */
+.rpt-zone-impact {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
 /* ── Report footer ─────────────────────────────────────────────── */
 .rpt-footer {
   padding: 2rem;
