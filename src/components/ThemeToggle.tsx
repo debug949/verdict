@@ -5,6 +5,20 @@ import { useEffect, useState } from 'react'
 const STORAGE_KEY = 'verdict-theme'
 
 const DARK_VARS: Record<string, string> = {
+  /* Report page */
+  '--bg':                 '#040410',
+  '--surface':            '#0a0a1e',
+  '--surface2':           '#0e0e26',
+  '--border':             '#15152d',
+  '--border2':            '#1d1d3a',
+  '--text':               '#f0f0ff',
+  '--fg':                 '#e8e8f8',
+  '--muted':              '#45455f',
+  '--muted2':             '#7e7ea8',
+  '--accent':             '#e8304a',
+  '--accent2':            '#f87171',
+  '--accent-glow':        'rgba(232,48,74,0.45)',
+  /* Landing page */
   '--lp-bg':              '#0c0c12',
   '--lp-surface':         '#111118',
   '--lp-text':            '#e8e8f4',
@@ -39,12 +53,26 @@ const DARK_VARS: Record<string, string> = {
   '--lp-footer-text':     '#4a4a6a',
   '--lp-footer-link':     '#6a6a8a',
   '--lp-footer-border':   'rgba(255,255,255,0.06)',
-  '--lp-glow-1':          'rgba(96,177,255,0.14)',
-  '--lp-glow-2':          'rgba(124,58,237,0.18)',
-  '--lp-glow-3':          'rgba(49,154,255,0.10)',
+  '--lp-glow-1':          'rgba(232,48,74,0.14)',
+  '--lp-glow-2':          'rgba(232,48,74,0.18)',
+  '--lp-glow-3':          'rgba(180,30,50,0.08)',
 }
 
 const LIGHT_VARS: Record<string, string> = {
+  /* Report page */
+  '--bg':                 '#fafafa',
+  '--surface':            '#f2f3f5',
+  '--surface2':           '#e8e9ec',
+  '--border':             '#e0e1e8',
+  '--border2':            '#d0d1d8',
+  '--text':               '#1a1a2e',
+  '--fg':                 '#2d2d3e',
+  '--muted':              '#9090a8',
+  '--muted2':             '#6b7080',
+  '--accent':             '#e8304a',
+  '--accent2':            '#c01f35',
+  '--accent-glow':        'rgba(232,48,74,0.25)',
+  /* Landing page */
   '--lp-bg':              '#F3F4ED',
   '--lp-surface':         '#ffffff',
   '--lp-text':            '#1a1a1a',
@@ -79,9 +107,9 @@ const LIGHT_VARS: Record<string, string> = {
   '--lp-footer-text':     '#aaaaaa',
   '--lp-footer-link':     '#888888',
   '--lp-footer-border':   'rgba(0,0,0,0.07)',
-  '--lp-glow-1':          'rgba(96,177,255,0.22)',
-  '--lp-glow-2':          'rgba(49,154,255,0.16)',
-  '--lp-glow-3':          'rgba(124,58,237,0.07)',
+  '--lp-glow-1':          'rgba(232,48,74,0.18)',
+  '--lp-glow-2':          'rgba(232,48,74,0.10)',
+  '--lp-glow-3':          'rgba(100,100,100,0.06)',
 }
 
 function applyVars(vars: Record<string, string>) {
