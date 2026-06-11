@@ -898,8 +898,33 @@ body {
 
 
 /* ═══════════════════════════════════════════════════════════════════
+   REPORT PAGE NAV  (shared .nav / .nav-logo classes)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem;
+  height: 56px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-sans);
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.nav-logo {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 700; letter-spacing: -0.02em;
+  color: var(--accent); text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav-logo:hover { color: var(--accent2); }
+
+.nav-logo-icon { font-size: 13px; }
+
+/* ═══════════════════════════════════════════════════════════════════
    REPORT PAGE  /r/[owner]/[repo]/[prNumber]
-   Dark — uses :root vars above
    ═══════════════════════════════════════════════════════════════════ */
 
 .rpt-root { max-width: 860px; margin: 0 auto; padding: 80px 2rem 0; }
