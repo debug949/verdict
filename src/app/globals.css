@@ -127,14 +127,14 @@
   --lp-border:          rgba(255,255,255,0.07);
   --lp-border-strong:   rgba(255,255,255,0.12);
 
-  --lp-nav-bg:          rgba(8, 8, 18, 0.65);
-  --lp-nav-border:      rgba(255,255,255,0.08);
-  --lp-nav-shadow:      0 4px 24px rgba(0,0,0,0.30), inset 0px 4px 4px rgba(255,255,255,0.04), inset 0 -1px 0 rgba(255,255,255,0.03);
-  --lp-nav-source-hover: rgba(255,255,255,0.06);
+  --lp-nav-bg:          rgba(10, 10, 22, 0.74);
+  --lp-nav-border:      rgba(255,255,255,0.13);
+  --lp-nav-shadow:      0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(255,255,255,0.04);
+  --lp-nav-source-hover: rgba(255,255,255,0.09);
 
-  --lp-badge-bg:        rgba(255,255,255,0.06);
-  --lp-badge-border:    rgba(255,255,255,0.10);
-  --lp-badge-shadow:    0 2px 8px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.06);
+  --lp-badge-bg:        rgba(255,255,255,0.09);
+  --lp-badge-border:    rgba(255,255,255,0.17);
+  --lp-badge-shadow:    0 2px 8px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.13);
 
   --lp-glow-1:          rgba(232, 48, 74, 0.14);
   --lp-glow-2:          rgba(232, 48, 74, 0.18);
@@ -144,10 +144,10 @@
   --lp-btn-text:        #0c0c12;
   --lp-btn-shadow:      0 4px 18px rgba(0,0,0,0.40);
   --lp-btn-shadow-hover:0 8px 28px rgba(0,0,0,0.50);
-  --lp-btn-sec-bg:      rgba(255,255,255,0.07);
+  --lp-btn-sec-bg:      rgba(255,255,255,0.10);
   --lp-btn-sec-text:    #e8e8f4;
-  --lp-btn-sec-border:  rgba(255,255,255,0.10);
-  --lp-btn-sec-shadow:  0 2px 8px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.06);
+  --lp-btn-sec-border:  rgba(255,255,255,0.17);
+  --lp-btn-sec-shadow:  0 2px 8px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.14);
 
   --lp-tab-bar-bg:      rgba(255,255,255,0.05);
   --lp-tab-active-bg:   #1e1e2e;
@@ -160,9 +160,9 @@
   --lp-stage-shadow:    0 2px 4px rgba(0,0,0,0.20), 0 8px 40px rgba(0,0,0,0.40), 0 40px 80px rgba(0,0,0,0.30);
   --lp-stage-grad:      linear-gradient(to top, rgba(0,0,0,0.50) 0%, transparent 100%);
 
-  --lp-ov-bg:           rgba(12,12,24,0.88);
-  --lp-ov-border:       rgba(255,255,255,0.10);
-  --lp-ov-shadow:       0 4px 28px rgba(0,0,0,0.40), 0 1px 4px rgba(0,0,0,0.20), inset 0px 4px 4px rgba(255,255,255,0.03), inset 0 1px 0 rgba(255,255,255,0.08);
+  --lp-ov-bg:           rgba(14,14,28,0.93);
+  --lp-ov-border:       rgba(255,255,255,0.15);
+  --lp-ov-shadow:       0 4px 28px rgba(0,0,0,0.50), 0 1px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.13), inset 0 -1px 0 rgba(255,255,255,0.04);
   --lp-ov-text:         #9898b8;
   --lp-ov-text-strong:  #e8e8f4;
   --lp-ov-divider:      rgba(255,255,255,0.08);
@@ -170,8 +170,8 @@
   --lp-ov-find-border:  rgba(255,255,255,0.06);
   --lp-ov-more:         #565668;
 
-  --lp-toggle-bg:       rgba(255,255,255,0.08);
-  --lp-toggle-border:   rgba(255,255,255,0.10);
+  --lp-toggle-bg:       rgba(255,255,255,0.11);
+  --lp-toggle-border:   rgba(255,255,255,0.17);
   --lp-toggle-icon:     #c8c8e8;
 
   --lp-footer-text:     #4a4a6a;
@@ -841,8 +841,8 @@ body {
 /* ── TypingMessages (Nokia font overlay) ──────────────────────── */
 .lp-typing-wrap {
   position: absolute;
-  left: 14%;
-  top: 44%;
+  left: 18px;
+  top: 16px;
   z-index: 30;
   width: 200px;
   display: flex;
