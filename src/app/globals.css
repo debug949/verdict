@@ -845,39 +845,50 @@ body {
 .lp-ov-zone-total { font-size: 10.5px; color: var(--lp-ov-text); font-family: var(--font-mono); transition: color 0.25s; }
 
 /* ── TypingMessages (Nokia font overlay) ──────────────────────── */
+/*
+ * Placed at the left margin just below the nav bar of the product screenshots.
+ * All 8 screenshots have a full-width flat nav (~40px) or a centered pill nav
+ * (~64px). top: 62px clears both at all common viewport widths.
+ * The dark terminal bubble guarantees readability over any screenshot background,
+ * light or dark — no need for theme-specific text colors.
+ */
 .lp-typing-wrap {
   position: absolute;
-  left: 18px;
-  top: 16px;
+  left: 14px;
+  top: 62px;
   z-index: 30;
-  width: 200px;
-  display: flex;
-  justify-content: flex-start;
-  text-align: left;
+  width: max-content;
+  max-width: 210px;
+  display: inline-flex;
+  align-items: center;
   pointer-events: none;
+  /* terminal bubble */
+  background: rgba(5, 12, 2, 0.72);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  border: 1px solid rgba(74, 222, 128, 0.16);
+  border-radius: 5px;
+  padding: 4px 9px;
 }
 
 .lp-typing-text {
   font-family: var(--font-nokia);
-  color: #2A3616;
-  font-size: 13px;
+  color: rgba(134, 239, 172, 0.90);
+  font-size: 12.5px;
   line-height: 1.4;
-  word-break: break-words;
-  min-height: 1.5em;
+  white-space: nowrap;
   display: inline;
 }
 
 .lp-typing-cursor {
   display: inline-block;
-  width: 6px;
-  height: 12px;
-  background: #2A3616;
+  width: 5px;
+  height: 11px;
+  background: rgba(134, 239, 172, 0.90);
   margin-left: 2px;
   vertical-align: middle;
+  flex-shrink: 0;
 }
-
-[data-theme="dark"] .lp-typing-text  { color: rgba(220, 255, 200, 0.82); }
-[data-theme="dark"] .lp-typing-cursor { background: rgba(220, 255, 200, 0.82); }
 
 /* ── Footer ───────────────────────────────────────────────────── */
 .lp-footer {
