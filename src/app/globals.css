@@ -581,6 +581,12 @@ body {
   box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
 
+[data-theme="dark"] .lp-btn-secondary:hover {
+  box-shadow: 0 4px 24px rgba(232,48,74,0.18), 0 1px 8px rgba(0,0,0,0.35);
+  border-color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.14);
+}
+
 /* ── Tab Showcase ─────────────────────────────────────────────── */
 .lp-showcase {
   width: 100%;
@@ -869,6 +875,9 @@ body {
   margin-left: 2px;
   vertical-align: middle;
 }
+
+[data-theme="dark"] .lp-typing-text  { color: rgba(220, 255, 200, 0.82); }
+[data-theme="dark"] .lp-typing-cursor { background: rgba(220, 255, 200, 0.82); }
 
 /* ── Footer ───────────────────────────────────────────────────── */
 .lp-footer {
