@@ -13,20 +13,57 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: 'risk-model',  label: 'Risk Model' },
 ]
 
-const SCREENSHOTS: Record<TabKey, { src: string; alt: string }> = {
-  'pr-review':  { src: '/screenshots/showcase.png',       alt: 'Verdict — GitHub PR review comment' },
-  'report':     { src: '/screenshots/report-overview.png', alt: 'Verdict — full report page overview' },
-  'findings':   { src: '/screenshots/report-findings.png', alt: 'Verdict — CRITICAL and HIGH findings' },
-  'risk-model': { src: '/screenshots/report-zones.png',    alt: 'Verdict — zone breakdown, PAYMENT 2.5×' },
+const SCREENSHOTS: Record<TabKey, { light: string; dark: string; alt: string }> = {
+  'pr-review':  {
+    light: '/screenshots/showcase-light.png',
+    dark:  '/screenshots/showcase-dark.png',
+    alt:   'Verdict — GitHub PR review comment',
+  },
+  'report':     {
+    light: '/screenshots/report-light.png',
+    dark:  '/screenshots/report-dark.png',
+    alt:   'Verdict — full report page overview',
+  },
+  'findings':   {
+    light: '/screenshots/findings-light.png',
+    dark:  '/screenshots/findings-dark.png',
+    alt:   'Verdict — CRITICAL and HIGH findings',
+  },
+  'risk-model': {
+    light: '/screenshots/zones-light.png',
+    dark:  '/screenshots/zones-dark.png',
+    alt:   'Verdict — zone breakdown, PAYMENT 2.5×',
+  },
 }
 
 const CYCLE_MS = 4000
 
+function useIsDark() {
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    const saved = localStorage.getItem('verdict-theme')
+    setIsDark(saved === 'dark' || document.documentElement.getAttribute('data-theme') === 'dark')
+
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.getAttribute('data-theme') === 'dark')
+    })
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    })
+    return () => observer.disconnect()
+  }, [])
+
+  return isDark
+}
+
 export function TabShowcase() {
-  const [active, setActive]       = useState<TabKey>('pr-review')
+  const [active, setActive]           = useState<TabKey>('pr-review')
   const [progressKey, setProgressKey] = useState(0)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const resumeRef   = useRef<ReturnType<typeof setTimeout>  | null>(null)
+  const isDark      = useIsDark()
 
   const advance = useCallback(() => {
     setActive(prev => {
@@ -60,7 +97,7 @@ export function TabShowcase() {
 
   return (
     <div className="lp-showcase">
-      {/* Stellar.ai tab bar */}
+      {/* Tab bar */}
       <div className="lp-tab-bar" role="tablist">
         {TABS.map(tab => (
           <button
@@ -86,24 +123,28 @@ export function TabShowcase() {
       {/* Screenshot stage */}
       <div className="lp-stage">
         <TypingMessages />
-        {TABS.map(tab => (
-          <div
-            key={tab.key}
-            role="tabpanel"
-            className={`lp-tab-panel${active === tab.key ? ' active' : ''}`}
-            aria-hidden={active !== tab.key}
-          >
-            <Image
-              src={SCREENSHOTS[tab.key].src}
-              alt={SCREENSHOTS[tab.key].alt}
-              fill
-              className="lp-screenshot"
-              priority={tab.key === 'pr-review'}
-              sizes="(max-width: 768px) 100vw, 1120px"
-            />
-            <TabOverlay tabKey={tab.key} />
-          </div>
-        ))}
+        {TABS.map(tab => {
+          const screen = SCREENSHOTS[tab.key]
+          const src = isDark ? screen.dark : screen.light
+          return (
+            <div
+              key={tab.key}
+              role="tabpanel"
+              className={`lp-tab-panel${active === tab.key ? ' active' : ''}`}
+              aria-hidden={active !== tab.key}
+            >
+              <Image
+                src={src}
+                alt={screen.alt}
+                fill
+                className="lp-screenshot"
+                priority={tab.key === 'pr-review'}
+                sizes="(max-width: 768px) 100vw, 1120px"
+              />
+              <TabOverlay tabKey={tab.key} />
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -144,7 +185,7 @@ function TabOverlay({ tabKey }: { tabKey: TabKey }) {
     return (
       <div className="lp-overlay lp-overlay-br">
         <div className="lp-ov-header">
-          <span className="lp-ov-dot" style={{ background: '#3b82f6' }} />
+          <span className="lp-ov-dot" style={{ background: '#e8304a' }} />
           <span className="lp-ov-title">Risk Narrative</span>
         </div>
         <p className="lp-ov-narrative">
@@ -197,7 +238,7 @@ function TabOverlay({ tabKey }: { tabKey: TabKey }) {
   return (
     <div className="lp-overlay lp-overlay-br">
       <div className="lp-ov-header">
-        <span className="lp-ov-dot" style={{ background: '#7c3aed' }} />
+        <span className="lp-ov-dot" style={{ background: '#e8304a' }} />
         <span className="lp-ov-title">Zone Multipliers</span>
       </div>
       <div className="lp-ov-zone-grid">

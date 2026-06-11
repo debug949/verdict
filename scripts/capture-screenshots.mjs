@@ -1,129 +1,118 @@
 /**
- * Capture README screenshots from the live dev server (redesigned site).
+ * Captures light + dark screenshots for all tab showcase panels.
  * Run: node scripts/capture-screenshots.mjs
- * Requires: dev server running on port 3002
+ * Requires: dev server running on port 3002  (npm run dev -- --port 3002)
+ *           AND: npx playwright install chromium  (once)
  */
 
-import { chromium } from 'playwright'
-import { mkdirSync } from 'fs'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import { chromium } from 'playwright';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const OUT = join(__dirname, '../public/screenshots')
-mkdirSync(OUT, { recursive: true })
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const OUT = path.resolve(__dirname, '..', 'public', 'screenshots');
 
-const BASE   = 'http://localhost:3002'
-const REPORT = 'https://verdict-vihan.vercel.app/r/debug949/verdict-test/1'
+const BASE = process.env.BASE_URL || 'http://localhost:3002';
+const REPORT_PATH = '/r/debug949/verdict-test/1';
 
-async function shot(page, name, opts = {}) {
-  const path = join(OUT, `${name}.png`)
-  await page.screenshot({ path, ...opts })
-  console.log(`  ✓  ${name}.png`)
+async function applyTheme(page, dark) {
+  await page.evaluate((d) => {
+    const el = document.documentElement;
+    if (d) {
+      el.setAttribute('data-theme', 'dark');
+      localStorage.setItem('verdict-theme', 'dark');
+    } else {
+      el.removeAttribute('data-theme');
+      localStorage.setItem('verdict-theme', 'light');
+    }
+    // Apply all CSS custom property overrides so React inline vars also update
+    const darkVars = {
+      '--bg': '#040410', '--surface': '#0a0a1e', '--surface2': '#0e0e26',
+      '--border': '#15152d', '--border2': '#1d1d3a',
+      '--text': '#f0f0ff', '--fg': '#e8e8f8',
+      '--muted': '#45455f', '--muted2': '#7e7ea8',
+      '--accent': '#e8304a', '--accent2': '#f87171',
+      '--lp-bg': '#0c0c12', '--lp-surface': '#111118',
+      '--lp-text': '#e8e8f4', '--lp-text-muted': '#9898b8',
+    };
+    const lightVars = {
+      '--bg': '#fafafa', '--surface': '#f2f3f5', '--surface2': '#e8e9ec',
+      '--border': '#e0e1e8', '--border2': '#d0d1d8',
+      '--text': '#1a1a2e', '--fg': '#2d2d3e',
+      '--muted': '#9090a8', '--muted2': '#6b7080',
+      '--accent': '#e8304a', '--accent2': '#c01f35',
+      '--lp-bg': '#F3F4ED', '--lp-surface': '#ffffff',
+      '--lp-text': '#1a1a1a', '--lp-text-muted': '#666666',
+    };
+    const vars = d ? darkVars : lightVars;
+    for (const [k, v] of Object.entries(vars)) {
+      el.style.setProperty(k, v);
+    }
+  }, dark);
+  await page.waitForTimeout(500);
 }
 
 async function main() {
-  console.log('\n▲ Verdict screenshot capture (redesign)\n')
+  fs.mkdirSync(OUT, { recursive: true });
+  const browser = await chromium.launch({ headless: true });
 
-  const browser = await chromium.launch()
-  const ctx = await browser.newContext({
-    viewport: { width: 1280, height: 900 },
-    deviceScaleFactor: 2,
-  })
-  const page = await ctx.newPage()
+  for (const dark of [false, true]) {
+    const suffix = dark ? 'dark' : 'light';
+    console.log(`\n── Capturing ${suffix.toUpperCase()} mode ──`);
 
-  // ── Landing page ────────────────────────────────────────────────
-  await page.goto(BASE, { waitUntil: 'networkidle' })
-  await page.waitForTimeout(1200)   // let motion animations settle
+    const ctx = await browser.newContext({
+      viewport: { width: 1280, height: 720 },
+    });
+    const page = await ctx.newPage();
 
-  // 1. hero.png — full viewport
-  await shot(page, 'hero', { fullPage: false })
+    // ─── Landing page tabs ─────────────────────────────────────────
+    await page.goto(BASE, { waitUntil: 'networkidle', timeout: 30000 });
+    await applyTheme(page, dark);
 
-  // 2. hero-card.png — tab showcase stage close-up
-  const stage = await page.locator('.lp-stage').boundingBox()
-  if (stage) {
+    // PR Review tab (already first / active)
+    await page.waitForSelector('.lp-stage', { timeout: 10000 });
+    const stage = page.locator('.lp-stage');
+    await stage.screenshot({ path: path.join(OUT, `showcase-${suffix}.png`) });
+    console.log(`  ✓ showcase-${suffix}.png`);
+
+    // Click Report tab
+    await page.click('button:has-text("Report")');
+    await page.waitForTimeout(800);
+    await stage.screenshot({ path: path.join(OUT, `report-${suffix}.png`) });
+    console.log(`  ✓ report-${suffix}.png`);
+
+    // Click Findings tab
+    await page.click('button:has-text("Findings")');
+    await page.waitForTimeout(800);
+    await stage.screenshot({ path: path.join(OUT, `findings-${suffix}.png`) });
+    console.log(`  ✓ findings-${suffix}.png`);
+
+    // Click Risk Model tab
+    await page.click('button:has-text("Risk Model")');
+    await page.waitForTimeout(800);
+    await stage.screenshot({ path: path.join(OUT, `zones-${suffix}.png`) });
+    console.log(`  ✓ zones-${suffix}.png`);
+
+    // ─── Report page ──────────────────────────────────────────────
+    await page.goto(BASE + REPORT_PATH, { waitUntil: 'networkidle', timeout: 30000 });
+    await applyTheme(page, dark);
+
+    // Hero / overview
     await page.screenshot({
-      path: join(OUT, 'hero-card.png'),
-      clip: {
-        x: Math.max(0, stage.x - 2),
-        y: Math.max(0, stage.y - 2),
-        width:  stage.width  + 4,
-        height: stage.height + 4,
-      },
-    })
-    console.log('  ✓  hero-card.png')
+      path: path.join(OUT, `report-overview-${suffix}.png`),
+      clip: { x: 0, y: 0, width: 1280, height: 720 },
+    });
+    console.log(`  ✓ report-overview-${suffix}.png`);
+
+    await ctx.close();
   }
 
-  // 3. how-it-works.png — hero text + badge area
-  const heroInner = await page.locator('.lp-hero-inner').boundingBox()
-  if (heroInner) {
-    await page.screenshot({
-      path: join(OUT, 'how-it-works.png'),
-      clip: {
-        x: 0,
-        y: Math.max(0, heroInner.y - 20),
-        width:  1280,
-        height: Math.min(580, heroInner.height),
-      },
-    })
-    console.log('  ✓  how-it-works.png')
-  }
-
-  // 4. showcase.png — PR Review tab of the tab showcase
-  // Make sure PR Review tab is active (it's the default), then capture stage
-  await page.locator('.lp-tab-btn').first().click()
-  await page.waitForTimeout(500)
-  const showcaseStage = await page.locator('.lp-stage').boundingBox()
-  const tabBar = await page.locator('.lp-tab-bar').boundingBox()
-  if (showcaseStage && tabBar) {
-    await page.screenshot({
-      path: join(OUT, 'showcase.png'),
-      clip: {
-        x: Math.max(0, tabBar.x - 8),
-        y: Math.max(0, tabBar.y - 8),
-        width:  tabBar.width + 16,
-        height: (showcaseStage.y + showcaseStage.height) - tabBar.y + 16,
-      },
-    })
-    console.log('  ✓  showcase.png')
-  }
-
-  // ── Report page ─────────────────────────────────────────────────
-  await page.goto(REPORT, { waitUntil: 'networkidle' })
-  await page.waitForTimeout(800)
-
-  // 5. report-overview.png — full viewport
-  await shot(page, 'report-overview', { fullPage: false })
-
-  // 6. report-hero.png — score ring + stats
-  const rptHero = await page.locator('.rpt-hero').boundingBox()
-  if (rptHero) {
-    await page.screenshot({
-      path: join(OUT, 'report-hero.png'),
-      clip: { x: 0, y: rptHero.y - 8, width: 1280, height: rptHero.height + 24 },
-    })
-    console.log('  ✓  report-hero.png')
-  }
-
-  // 7. report-zones.png — zone breakdown
-  const zones = await page.locator('.rpt-zones-list').boundingBox()
-  if (zones) {
-    await page.screenshot({
-      path: join(OUT, 'report-zones.png'),
-      clip: { x: 0, y: zones.y - 60, width: 1280, height: zones.height + 80 },
-    })
-    console.log('  ✓  report-zones.png')
-  }
-
-  // 8. report-findings.png — findings list
-  const firstFinding = await page.locator('.rpt-finding-card').first()
-  await firstFinding.scrollIntoViewIfNeeded()
-  await page.evaluate(() => window.scrollBy(0, -120))
-  await page.waitForTimeout(300)
-  await shot(page, 'report-findings', { fullPage: false })
-
-  await browser.close()
-  console.log('\n✅ Done — 8 screenshots saved to public/screenshots/\n')
+  await browser.close();
+  console.log('\n✅ All screenshots saved to public/screenshots/');
 }
 
-main().catch(e => { console.error(e); process.exit(1) })
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

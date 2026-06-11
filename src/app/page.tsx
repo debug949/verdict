@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { TabShowcase } from '@/components/TabShowcase'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { HeroContent } from '@/components/HeroContent'
+import { VerdictCursor } from '@/components/VerdictCursor'
 
 export const metadata: Metadata = {
   title: "Verdict — Know what you're merging",
@@ -69,6 +70,7 @@ function Nav() {
 export default function Home() {
   return (
     <div className="lp-wrap">
+      <VerdictCursor />
       <Nav />
 
       <section className="lp-hero">

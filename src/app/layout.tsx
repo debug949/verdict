@@ -55,7 +55,7 @@ const themeScript = `
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${fustat.variable} ${instrumentSerif.variable}`}>
+    <html lang="en" className={`${inter.variable} ${fustat.variable} ${instrumentSerif.variable}`} suppressHydrationWarning>
       <head>
         {/* Anti-FOUC: apply saved theme before first paint */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
