@@ -4,9 +4,9 @@
 
 Verdict is a **GitHub App** that runs a security risk pipeline on every pull request and posts a trust score directly to the PR — before code reaches `main`. It is not an AI code review tool. It is a **deterministic risk engine**: every score is reproducible, every finding is traceable to a specific line in the diff.
 
-**Live demo:** [`verdict-inky.vercel.app`](https://verdict-inky.vercel.app)  
+**Live demo:** [`verdict-vihan.vercel.app`](https://verdict-vihan.vercel.app)  
 **Test PR:** [`debug949/verdict-test #1`](https://github.com/debug949/verdict-test/pull/1) — real output from a real Verdict analysis  
-**Report page:** [`/r/debug949/verdict-test/1`](https://verdict-inky.vercel.app/r/debug949/verdict-test/1)
+**Report page:** [`/r/debug949/verdict-test/1`](https://verdict-vihan.vercel.app/r/debug949/verdict-test/1)
 
 <img src="./public/screenshots/hero.png" alt="Verdict landing page — Know what you're merging" width="100%">
 

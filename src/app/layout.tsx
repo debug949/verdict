@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Verdict — Know what you're merging",
     description: 'Automatic PR security analysis. Secrets, CVEs, zone-weighted trust score.',
-    url: 'https://verdict-inky.vercel.app',
+    url: 'https://verdict-vihan.vercel.app',
     siteName: 'Verdict',
     images: [{ url: '/screenshots/hero.png', width: 1280, height: 900, alt: 'Verdict — Merge Risk Engine' }],
   },

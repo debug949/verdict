@@ -81,7 +81,7 @@ export function HeroContent() {
           </span>
         </a>
         <a
-          href="https://verdict-inky.vercel.app/r/debug949/verdict-test/1"
+          href="https://verdict-vihan.vercel.app/r/debug949/verdict-test/1"
           target="_blank"
           rel="noopener noreferrer"
           className="lp-btn-secondary"

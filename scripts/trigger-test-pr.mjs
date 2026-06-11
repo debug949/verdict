@@ -54,5 +54,5 @@ gh('api', `repos/${REPO}/git/refs/heads/${BRANCH}`,
 
 console.log('\n✓ Push complete. GitHub webhook will fire in ~2s.')
 console.log(`  PR:     https://github.com/${REPO}/pull/1`)
-console.log(`  Report: https://verdict-inky.vercel.app/r/debug949/verdict-test/1`)
+console.log(`  Report: https://verdict-vihan.vercel.app/r/debug949/verdict-test/1`)
 console.log('\nWatch Vercel logs for: [pipeline] report persisted=true')

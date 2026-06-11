@@ -18,7 +18,7 @@
 
 | Resource | URL |
 |----------|-----|
-| **Deployed app** | https://verdict-inky.vercel.app |
+| **Deployed app** | https://verdict-vihan.vercel.app |
 | **Test PR (first verified Verdict review)** | https://github.com/debug949/verdict-test/pull/1 |
 | **GitHub App install page** | https://github.com/apps/verdict-diff |
 | **Vercel project** | https://vercel.com/debug949s-projects/verdict |
@@ -69,7 +69,7 @@ Redeploy with `vercel --prod`.
 | `GITHUB_APP_ID` | `3990249` |
 | `GITHUB_APP_PRIVATE_KEY` | Base64-encoded PEM — 2240 chars |
 | `GITHUB_WEBHOOK_SECRET` | 64-char hex string |
-| `NEXT_PUBLIC_APP_URL` | `https://verdict-inky.vercel.app` |
+| `NEXT_PUBLIC_APP_URL` | `https://verdict-vihan.vercel.app` |
 
 ⚠️ All four were originally set via PowerShell pipe which prepended a UTF-8 BOM (U+FEFF).
 All four have been re-set via the Vercel REST API using a Node.js script to avoid the BOM.

@@ -14,7 +14,7 @@ const OUT = join(__dirname, '../public/screenshots')
 mkdirSync(OUT, { recursive: true })
 
 const BASE   = 'http://localhost:3002'
-const REPORT = 'https://verdict-inky.vercel.app/r/debug949/verdict-test/1'
+const REPORT = 'https://verdict-vihan.vercel.app/r/debug949/verdict-test/1'
 
 async function shot(page, name, opts = {}) {
   const path = join(OUT, `${name}.png`)

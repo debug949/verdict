@@ -29,7 +29,7 @@ function Nav() {
           <li><a href="#zones">Zones</a></li>
           <li>
             <a
-              href="https://verdict-inky.vercel.app/r/debug949/verdict-test/1"
+              href="https://verdict-vihan.vercel.app/r/debug949/verdict-test/1"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -97,7 +97,7 @@ export default function Home() {
             GitHub
           </a>
           <a
-            href="https://verdict-inky.vercel.app/r/debug949/verdict-test/1"
+            href="https://verdict-vihan.vercel.app/r/debug949/verdict-test/1"
             target="_blank"
             rel="noopener noreferrer"
           >
