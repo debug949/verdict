@@ -1,4 +1,5 @@
 {
+  "alias": ["verdict-vihan.vercel.app"],
   "functions": {
     "src/app/api/webhooks/github/route.ts": {
       "maxDuration": 60
