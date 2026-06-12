@@ -845,35 +845,29 @@ body {
 .lp-ov-zone-total { font-size: 10.5px; color: var(--lp-ov-text); font-family: var(--font-mono); transition: color 0.25s; }
 
 /* ── TypingMessages (Nokia font overlay) ──────────────────────── */
-/*
- * Placed at the left margin just below the nav bar of the product screenshots.
- * All 8 screenshots have a full-width flat nav (~40px) or a centered pill nav
- * (~64px). top: 62px clears both at all common viewport widths.
- * The dark terminal bubble guarantees readability over any screenshot background,
- * light or dark — no need for theme-specific text colors.
- */
 .lp-typing-wrap {
   position: absolute;
-  left: 14px;
-  top: 62px;
+  bottom: 55px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 30;
   width: max-content;
-  max-width: 210px;
+  max-width: 280px;
   display: inline-flex;
   align-items: center;
   pointer-events: none;
-  /* terminal bubble */
-  background: rgba(5, 12, 2, 0.72);
+  /* Light mode: frosted glass with dark text */
+  background: rgba(255, 255, 255, 0.84);
   backdrop-filter: blur(8px) saturate(140%);
   -webkit-backdrop-filter: blur(8px) saturate(140%);
-  border: 1px solid rgba(74, 222, 128, 0.16);
+  border: 1px solid rgba(0, 100, 30, 0.18);
   border-radius: 5px;
   padding: 4px 9px;
 }
 
 .lp-typing-text {
   font-family: var(--font-nokia);
-  color: rgba(134, 239, 172, 0.90);
+  color: rgba(5, 55, 18, 0.90);
   font-size: 12.5px;
   line-height: 1.4;
   white-space: nowrap;
@@ -884,10 +878,22 @@ body {
   display: inline-block;
   width: 5px;
   height: 11px;
-  background: rgba(134, 239, 172, 0.90);
+  background: rgba(5, 55, 18, 0.90);
   margin-left: 2px;
   vertical-align: middle;
   flex-shrink: 0;
+}
+
+/* Dark mode: terminal bubble with bright green text */
+[data-theme="dark"] .lp-typing-wrap {
+  background: rgba(5, 12, 2, 0.72);
+  border-color: rgba(74, 222, 128, 0.16);
+}
+[data-theme="dark"] .lp-typing-text {
+  color: rgba(134, 239, 172, 0.90);
+}
+[data-theme="dark"] .lp-typing-cursor {
+  background: rgba(134, 239, 172, 0.90);
 }
 
 /* ── Footer ───────────────────────────────────────────────────── */
@@ -912,6 +918,7 @@ body {
   .lp-tab-btn { flex: 1; min-width: calc(50% - 6px); font-size: 12.5px; padding: 7px 8px 5px; min-width: unset; }
   .lp-stage { height: 320px; }
   .lp-overlay { min-width: 160px; max-width: calc(50vw - 28px); padding: 11px 13px; }
+  .lp-typing-wrap { display: none; }
   .lp-ov-score-num { font-size: 26px; }
   .lp-footer { flex-direction: column; gap: 12px; text-align: center; padding: 16px 24px; }
 }
